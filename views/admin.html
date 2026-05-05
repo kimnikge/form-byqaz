@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>byQAZ — Админ-панель</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .topbar {
+      background: #1a56db;
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .topbar .logo { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+    .topbar .subtitle { font-size: 13px; opacity: 0.8; }
+
+    .btn-export {
+      background: #fff;
+      color: #1a56db;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-export:hover { background: #e0eaff; }
+
+    /* Toolbar */
+    .toolbar {
+      padding: 16px 24px;
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .toolbar input, .toolbar select {
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      outline: none;
+      color: #111827;
+      background: #fff;
+      transition: border-color 0.15s;
+    }
+
+    .toolbar input:focus, .toolbar select:focus { border-color: #1a56db; }
+    .toolbar input { min-width: 220px; }
+
+    .count-badge {
+      margin-left: auto;
+      font-size: 13px;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    /* Table wrapper */
+    .table-wrap {
+      padding: 20px 24px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+
+    thead th {
+      background: #f9fafb;
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1.5px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+
+    tbody tr:hover { background: #f8faff; }
+    tbody tr:last-child { border-bottom: none; }
+
+    td { padding: 12px 14px; vertical-align: middle; }
+
+    td.id-col  { color: #9ca3af; font-size: 12px; width: 40px; }
+    td.date-col { white-space: nowrap; font-size: 12px; color: #6b7280; }
+    td.phone-col { white-space: nowrap; font-weight: 600; }
+
+    /* Role badge */
+    .role-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .role-manufacturer { background: #dbeafe; color: #1d4ed8; }
+    .role-supplier      { background: #d1fae5; color: #065f46; }
+    .role-buyer         { background: #fef3c7; color: #92400e; }
+
+    /* Status select */
+    .status-select {
+      border: 1.5px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      background: #fff;
+    }
+
+    .status-new      { color: #1d4ed8; border-color: #bfdbfe; background: #eff6ff; }
+    .status-contacted { color: #065f46; border-color: #a7f3d0; background: #ecfdf5; }
+    .status-closed   { color: #6b7280; border-color: #e5e7eb; background: #f9fafb; }
+
+    /* Industry cell */
+    .industry-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .tag {
+      background: #f3f4f6;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      color: #374151;
+    }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 48px;
+      color: #9ca3af;
+      font-size: 15px;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 48px;
+      color: #6b7280;
+    }
+
+    /* Error */
+    .error-msg {
+      background: #fef2f2;
+      border: 1.5px solid #fca5a5;
+      border-radius: 10px;
+      padding: 16px;
+      color: #b91c1c;
+      margin: 20px 24px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="logo">byQAZ.kz — Администрирование</div>
+    <div class="subtitle">Заявки на регистрацию</div>
+  </div>
+  <button class="btn-export" onclick="exportExcel()">⬇ Экспорт Excel</button>
+</div>
+
+<div class="toolbar">
+  <input type="text" id="search" placeholder="🔍 Поиск по имени или телефону…" oninput="renderTable()" />
+
+  <select id="filter-role" onchange="renderTable()">
+    <option value="">Все роли</option>
+    <option value="manufacturer">Производитель</option>
+    <option value="supplier">Поставщик</option>
+    <option value="buyer">Закупщик</option>
+  </select>
+
+  <select id="filter-status" onchange="renderTable()">
+    <option value="">Все статусы</option>
+    <option value="new">Новая</option>
+    <option value="contacted">Контакт</option>
+    <option value="closed">Закрыта</option>
+  </select>
+
+  <span class="count-badge" id="count-badge"></span>
+</div>
+
+<div class="error-msg" id="error-msg"></div>
+
+<div class="table-wrap">
+  <div class="loading" id="loading">Загрузка…</div>
+  <table id="leads-table" style="display:none;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Дата</th>
+        <th>Роль</th>
+        <th>Имя</th>
+        <th>Телефон</th>
+        <th>Регион</th>
+        <th>Отрасль / тип</th>
+        <th>Статус</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none;">Заявок не найдено</div>
+</div>
+
+<script>
+'use strict';
+
+const ROLE_LABELS = { manufacturer: 'Производитель', supplier: 'Поставщик', buyer: 'Закупщик' };
+const STATUS_LABELS = { new: 'Новая', contacted: 'Контакт', closed: 'Закрыта' };
+
+let allLeads = [];
+
+// ─── Load ─────────────────────────────────────────────────────────────────────
+
+async function loadLeads() {
+  try {
+    const res = await fetch('/api/leads');
+    if (res.status === 401) {
+      document.getElementById('loading').textContent = 'Необходима авторизация. Перезагрузите страницу.';
+      return;
+    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    allLeads = await res.json();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('leads-table').style.display = 'table';
+    renderTable();
+  } catch (err) {
+    document.getElementById('loading').style.display = 'none';
+    showError('Не удалось загрузить заявки: ' + err.message);
+  }
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+
+function renderTable() {
+  const search = document.getElementById('search').value.toLowerCase().trim();
+  const roleFilter = document.getElementById('filter-role').value;
+  const statusFilter = document.getElementById('filter-status').value;
+
+  const filtered = allLeads.filter(lead => {
+    if (roleFilter && lead.role !== roleFilter) return false;
+    if (statusFilter && lead.status !== statusFilter) return false;
+    if (search) {
+      const haystack = `${lead.name} ${lead.phone}`.toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('count-badge').textContent = `Показано: ${filtered.length} из ${allLeads.length}`;
+
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+
+  if (filtered.length === 0) {
+    document.getElementById('leads-table').style.display = 'none';
+    document.getElementById('empty').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('leads-table').style.display = 'table';
+  document.getElementById('empty').style.display = 'none';
+
+  for (const lead of filtered) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="id-col">${lead.id}</td>
+      <td class="date-col">${formatDate(lead.createdAt)}</td>
+      <td><span class="role-badge role-${lead.role}">${ROLE_LABELS[lead.role] || lead.role}</span></td>
+      <td>${esc(lead.name)}</td>
+      <td class="phone-col">${esc(lead.phone)}</td>
+      <td>${esc(lead.region)}</td>
+      <td>${renderIndustry(lead)}</td>
+      <td>${renderStatus(lead)}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+function renderIndustry(lead) {
+  if (lead.role === 'manufacturer' && lead.industry) {
+    return `<div class="industry-tags"><span class="tag">${esc(lead.industry)}</span></div>`;
+  }
+  if (lead.role === 'supplier' && lead.industries && lead.industries.length > 0) {
+    return `<div class="industry-tags">${lead.industries.map(i => `<span class="tag">${esc(i)}</span>`).join('')}</div>`;
+  }
+  if (lead.role === 'buyer' && lead.buyerType) {
+    const labels = { tender: 'Тендерщик', wholesale: 'Оптовик', distributor: 'Дистрибьютор', individual: 'Физ. лицо' };
+    return `<span class="tag">${labels[lead.buyerType] || esc(lead.buyerType)}</span>`;
+  }
+  return '—';
+}
+
+function renderStatus(lead) {
+  const options = Object.entries(STATUS_LABELS)
+    .map(([val, label]) => `<option value="${val}" ${lead.status === val ? 'selected' : ''}>${label}</option>`)
+    .join('');
+  return `<select class="status-select status-${lead.status}" onchange="updateStatus(${lead.id}, this)">${options}</select>`;
+}
+
+// ─── Update status ────────────────────────────────────────────────────────────
+
+async function updateStatus(id, selectEl) {
+  const status = selectEl.value;
+  selectEl.className = `status-select status-${status}`;
+
+  try {
+    const res = await fetch(`/api/lead/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const lead = allLeads.find(l => l.id === id);
+    if (lead) lead.status = status;
+  } catch (err) {
+    showError('Не удалось обновить статус: ' + err.message);
+    await loadLeads(); // Reload to sync
+  }
+}
+
+// ─── Export ───────────────────────────────────────────────────────────────────
+
+function exportExcel() {
+  window.location.href = '/api/leads/export';
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function esc(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 5000);
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+loadLeads();
+</script>
+</body>
+</html>
