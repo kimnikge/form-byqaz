@@ -60,6 +60,17 @@ router.post('/lead', submitLimiter, async (req, res) => {
   }
 });
 
+// GET /api/stats  — публичный счётчик заявок
+router.get('/stats', async (req, res) => {
+  try {
+    const count = await prisma.lead.count();
+    res.json({ count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+});
+
 // GET /api/leads
 router.get('/leads', basicAuth, async (req, res) => {
   try {

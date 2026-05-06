@@ -44,25 +44,151 @@ function setLang(lang) {
 function initPhoneInput() {
   const input = document.getElementById('field-phone');
   if (!input) return;
+
+  function format(raw) {
+    let d = raw.replace(/\D/g, '');
+    if (d.startsWith('8')) d = '7' + d.slice(1);
+    if (d && !d.startsWith('7')) d = '7' + d;
+    if (d.length > 11) d = d.slice(0, 11);
+    // Форматируем: +7 XXX XXX-XX-XX
+    if (d.length === 0) return '';
+    let out = '+' + d[0];
+    if (d.length > 1) out += ' ' + d.slice(1, 4);
+    if (d.length > 4) out += ' ' + d.slice(4, 7);
+    if (d.length > 7) out += '-' + d.slice(7, 9);
+    if (d.length > 9) out += '-' + d.slice(9, 11);
+    return out;
+  }
+
   input.addEventListener('input', () => {
-    let val = input.value.replace(/\D/g, '');
-    if (val.startsWith('8')) val = '7' + val.slice(1);
-    if (val && !val.startsWith('7')) val = '7' + val;
-    if (val.length > 11) val = val.slice(0, 11);
-    input.value = val ? '+' + val : '';
+    const pos = input.selectionStart;
+    const prevLen = input.value.length;
+    input.value = format(input.value);
+    // Корректируем позицию курсора
+    const diff = input.value.length - prevLen;
+    input.setSelectionRange(pos + diff, pos + diff);
   });
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && input.value === '+7') {
+    if (e.key === 'Backspace' && (input.value === '+7' || input.value === '+7 ')) {
       e.preventDefault();
       input.value = '';
     }
   });
   input.addEventListener('focus', () => {
-    if (!input.value) input.value = '+7';
+    if (!input.value) input.value = '+7 ';
   });
   input.addEventListener('blur', () => {
-    if (input.value === '+7') input.value = '';
+    if (input.value === '+7' || input.value === '+7 ') input.value = '';
   });
+}
+
+// ─── Scroll to form (anchor) ──────────────────────────────────────────────────
+function scrollToForm() {
+  document.getElementById('formAnchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── Scroll hint hide on scroll ───────────────────────────────────────────────
+function initScrollHint() {
+  const hint = document.getElementById('scrollHint');
+  if (!hint) return;
+  const onScroll = () => {
+    if (window.scrollY > 60) {
+      hint.classList.add('hidden');
+      window.removeEventListener('scroll', onScroll);
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// ─── Countdown timer ──────────────────────────────────────────────────────────
+const LAUNCH_DATE = new Date('2026-05-16T00:00:00');
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = LAUNCH_DATE - now;
+  if (diff <= 0) {
+    ['days','hours','mins','secs'].forEach(id => {
+      const el = document.getElementById('cd-' + id);
+      if (el) el.textContent = '00';
+    });
+    return;
+  }
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000)  / 60000);
+  const secs  = Math.floor((diff % 60000)    / 1000);
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('cd-days').textContent  = pad(days);
+  document.getElementById('cd-hours').textContent = pad(hours);
+  document.getElementById('cd-mins').textContent  = pad(mins);
+  document.getElementById('cd-secs').textContent  = pad(secs);
+}
+
+function initCountdown() {
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+
+// ─── Participants counter ─────────────────────────────────────────────────────
+async function loadCounter() {
+  try {
+    const res = await fetch('/api/stats');
+    if (!res.ok) return;
+    const { count } = await res.json();
+    const el = document.getElementById('counter-num');
+    if (el) el.textContent = count;
+  } catch {
+    // не критично — просто скрываем
+    const el = document.getElementById('counter-num');
+    if (el) el.closest('.hero-counter').style.display = 'none';
+  }
+}
+
+// ─── Session storage: save/restore progress ───────────────────────────────────
+const SESSION_KEY = 'byqaz_form_state';
+
+function saveProgress() {
+  const data = {
+    role: state.role,
+    industry: state.industry,
+    industries: state.industries,
+    buyerType: state.buyerType,
+    name: document.getElementById('field-name')?.value || '',
+    phone: document.getElementById('field-phone')?.value || '',
+    region: document.getElementById('field-region')?.value || '',
+  };
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
+}
+
+function restoreProgress() {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    if (data.role) {
+      state.role = data.role;
+      const btn = document.querySelector(`.option-btn[data-role="${data.role}"]`);
+      if (btn) btn.classList.add('selected');
+    }
+    if (data.industry)    state.industry    = data.industry;
+    if (data.industries)  state.industries  = data.industries;
+    if (data.buyerType)   state.buyerType   = data.buyerType;
+
+    // Контакты восстанавливаем после рендера DOM
+    requestAnimationFrame(() => {
+      const nameEl   = document.getElementById('field-name');
+      const phoneEl  = document.getElementById('field-phone');
+      const regionEl = document.getElementById('field-region');
+      if (nameEl   && data.name)   nameEl.value   = data.name;
+      if (phoneEl  && data.phone)  phoneEl.value  = data.phone;
+      if (regionEl && data.region) regionEl.value = data.region;
+    });
+  } catch { /* игнорируем битые данные */ }
+}
+
+function clearProgress() {
+  sessionStorage.removeItem(SESSION_KEY);
 }
 
 // ─── State ───────────────────────────────────────────────────────────────────
@@ -141,6 +267,7 @@ function selectRole(btn) {
   state.industry = null;
   state.industries = [];
   state.buyerType = null;
+  saveProgress();
 }
 
 // ─── Step 2: Industry / Buyer type ───────────────────────────────────────────
@@ -156,6 +283,7 @@ function selectIndustry(btn) {
   document.querySelectorAll('#industry-single .option-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   state.industry = btn.dataset.industry;
+  saveProgress();
 }
 
 function toggleCheckLabel(checkbox) {
@@ -173,6 +301,7 @@ function selectBuyerType(btn) {
   document.querySelectorAll('.buyer-list .option-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   state.buyerType = btn.dataset.buyer;
+  saveProgress();
 }
 
 // ─── Select all / deselect all for supplier ──────────────────────────────────
@@ -253,6 +382,7 @@ async function submitForm() {
 }
 
 function showSuccess() {
+  clearProgress();
   document.getElementById('formCard').style.display = 'none';
   const sc = document.getElementById('successCard');
   sc.style.display = 'block';
@@ -277,3 +407,14 @@ function clearError(step) {
 
 loadLang(currentLang);
 initPhoneInput();
+initScrollHint();
+initCountdown();
+loadCounter();
+restoreProgress();
+
+// Сохраняем контакты при вводе
+document.addEventListener('input', (e) => {
+  if (['field-name', 'field-phone', 'field-region'].includes(e.target.id)) {
+    saveProgress();
+  }
+});
