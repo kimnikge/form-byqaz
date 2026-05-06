@@ -475,6 +475,49 @@
       letter-spacing: 0.06em;
     }
 
+    /* ─── Support block ─── */
+    .support-block {
+      width: 100%;
+      max-width: 540px;
+      margin-top: 32px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(26,86,219,0.08), 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .support-block-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .support-block-sub {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .support-block img {
+      width: 220px;
+      height: auto;
+      border-radius: 16px;
+      border: 2px solid #e5e7eb;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .support-block-caption {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #9ca3af;
+      font-weight: 600;
+    }
+
     /* ─── Honeypot ─── */
     .hp-field { display: none !important; }
 
@@ -522,6 +565,206 @@
         gap: 10px;
       }
     }
+
+    /* ─── Hero / Coming Soon ─── */
+    .hero {
+      width: 100%;
+      max-width: 540px;
+      text-align: center;
+      padding: 8px 8px 32px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.80);
+      border: 1.5px solid #c7d7fc;
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a56db;
+      margin-bottom: 22px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.2;
+      letter-spacing: -0.7px;
+      margin-bottom: 14px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: #6b7280;
+      line-height: 1.75;
+      margin-bottom: 24px;
+      padding: 0 4px;
+    }
+
+    /* Таймер */
+    .hero-launch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #fef3c7, #fff7ed);
+      border: 1.5px solid #fbbf24;
+      border-radius: 14px;
+      padding: 14px 20px;
+      margin-bottom: 16px;
+    }
+
+    .hero-launch-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400e;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .countdown-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #92400e;
+      line-height: 1;
+      min-width: 44px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      padding: 4px 8px;
+      text-align: center;
+    }
+
+    .countdown-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #b45309;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Счётчик */
+    .hero-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 16px;
+    }
+    .hero-counter-num {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1a56db;
+    }
+
+    /* Кнопка-якорь */
+    .hero-reg {
+      display: block;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #1a56db 0%, #4f46e5 100%);
+      border: none;
+      border-radius: 14px;
+      padding: 18px 20px;
+      line-height: 1.4;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(26,86,219,0.35);
+      transition: box-shadow 0.18s, transform 0.12s;
+      font-family: inherit;
+    }
+    .hero-reg:hover {
+      box-shadow: 0 6px 28px rgba(26,86,219,0.45);
+      transform: translateY(-1px);
+    }
+    .hero-reg:active { transform: translateY(0); }
+
+    /* Стрелка "листай вниз" */
+    .scroll-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin: 4px 0 24px;
+      opacity: 1;
+      transition: opacity 0.4s;
+    }
+    .scroll-hint.hidden { opacity: 0; pointer-events: none; }
+    .scroll-hint-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .scroll-arrow {
+      width: 28px;
+      height: 28px;
+      border-left: 2.5px solid #9ca3af;
+      border-bottom: 2.5px solid #9ca3af;
+      transform: rotate(-45deg);
+      border-radius: 3px;
+      animation: bounceDown 1.4s ease-in-out infinite;
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: rotate(-45deg) translateY(0); }
+      50%       { transform: rotate(-45deg) translateY(5px); }
+    }
+
+    /* Метка над формой */
+    .form-label {
+      width: 100%;
+      max-width: 540px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+    .form-label-line {
+      flex: 1;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, #c7d7fc);
+    }
+    .form-label-line.right {
+      background: linear-gradient(90deg, #c7d7fc, transparent);
+    }
+    .form-label-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a56db;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 4px 0 24px; }
+      .hero-title { font-size: 26px; }
+      .hero-sub { font-size: 14px; }
+      .hero-reg { font-size: 15px; padding: 16px; }
+      .countdown-num { font-size: 22px; min-width: 36px; }
+    }
   </style>
 </head>
 <body>
@@ -546,6 +789,59 @@
     <button class="lang-btn" data-lang="kz" onclick="setLang('kz')">KZ</button>
   </div>
 </header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🚧 <span data-i18n="hero_badge">Сайт в разработке</span></div>
+  <h1 class="hero-title" data-i18n="hero_title">Реестр казахстанских производителей</h1>
+  <p class="hero-sub" data-i18n="hero_sub">Мы строим платформу, которая объединит производителей, поставщиков и закупщиков Казахстана в единую экосистему.</p>
+
+  <!-- Таймер обратного отсчёта -->
+  <div class="hero-launch">
+    <div class="hero-launch-label" data-i18n="hero_launch">Скоро запуск</div>
+    <div class="countdown">
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cd-days">--</div>
+        <div class="countdown-label" data-i18n="cd_days">дней</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cd-hours">--</div>
+        <div class="countdown-label" data-i18n="cd_hours">часов</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cd-mins">--</div>
+        <div class="countdown-label" data-i18n="cd_mins">минут</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cd-secs">--</div>
+        <div class="countdown-label" data-i18n="cd_secs">секунд</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Счётчик участников -->
+  <div class="hero-counter">
+    <span data-i18n="hero_counter_pre">Уже зарегистрировано:</span>
+    <span class="hero-counter-num" id="counter-num">…</span>
+    <span data-i18n="hero_counter_post">участников</span>
+  </div>
+
+  <!-- Кнопка-якорь -->
+  <button class="hero-reg" onclick="scrollToForm()" data-i18n="hero_reg">А пока открыта предварительная регистрация — займи место первым!</button>
+</div>
+
+<!-- Стрелка "листай вниз" -->
+<div class="scroll-hint" id="scrollHint">
+  <div class="scroll-hint-text" data-i18n="scroll_hint">регистрация</div>
+  <div class="scroll-arrow"></div>
+</div>
+
+<!-- Метка над формой -->
+<div class="form-label" id="formAnchor">
+  <div class="form-label-line"></div>
+  <div class="form-label-text" data-i18n="form_label">↓ Предварительная регистрация</div>
+  <div class="form-label-line right"></div>
+</div>
 
 <!-- FORM CARD -->
 <div class="card" id="formCard">
@@ -717,6 +1013,14 @@
     <div class="support-text" data-i18n="support_text">ПОДДЕРЖАТЬ НАШ ПРОЕКТ</div>
     <img src="/kaspi-qr.png" alt="Kaspi QR" onerror="this.style.display='none'" />
   </div>
+</div>
+
+<!-- SUPPORT BLOCK -->
+<div class="support-block">
+  <div class="support-block-title" data-i18n="support_block_title">🤝 Помочь проекту легко!</div>
+  <div class="support-block-sub" data-i18n="support_block_sub">Мы гражданская инициатива. Любой вклад поможет нам развиваться.</div>
+  <img src="/byQAZ-QR.jpeg" alt="Kaspi QR для поддержки" />
+  <div class="support-block-caption" data-i18n="support_block_caption">Kaspi QR</div>
 </div>
 
 <script src="/script.js"></script>
