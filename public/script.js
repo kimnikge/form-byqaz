@@ -46,18 +46,21 @@ function initPhoneInput() {
   if (!input) return;
 
   function format(raw) {
+    // Оставляем только цифры
     let d = raw.replace(/\D/g, '');
+    
+    // Если начинается с 8, заменяем на 7 (для России)
     if (d.startsWith('8')) d = '7' + d.slice(1);
+    
+    // Если не начинается с 7, добавляем 7
     if (d && !d.startsWith('7')) d = '7' + d;
+    
+    // Максимум 11 цифр (7 + 10 цифр)
     if (d.length > 11) d = d.slice(0, 11);
-    // Форматируем: +7 XXX XXX-XX-XX
+    
+    // Форматируем: +7XXXXXXXXXX (без пробелов и дефисов)
     if (d.length === 0) return '';
-    let out = '+' + d[0];
-    if (d.length > 1) out += ' ' + d.slice(1, 4);
-    if (d.length > 4) out += ' ' + d.slice(4, 7);
-    if (d.length > 7) out += '-' + d.slice(7, 9);
-    if (d.length > 9) out += '-' + d.slice(9, 11);
-    return out;
+    return '+' + d;
   }
 
   input.addEventListener('input', () => {
@@ -68,17 +71,20 @@ function initPhoneInput() {
     const diff = input.value.length - prevLen;
     input.setSelectionRange(pos + diff, pos + diff);
   });
+  
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && (input.value === '+7' || input.value === '+7 ')) {
+    if (e.key === 'Backspace' && input.value === '+7') {
       e.preventDefault();
       input.value = '';
     }
   });
+  
   input.addEventListener('focus', () => {
-    if (!input.value) input.value = '+7 ';
+    if (!input.value) input.value = '+7';
   });
+  
   input.addEventListener('blur', () => {
-    if (input.value === '+7' || input.value === '+7 ') input.value = '';
+    if (input.value === '+7') input.value = '';
   });
 }
 
