@@ -1,13 +1,28 @@
-FROM node:20-alpine
+# ── Stage 1: генерация Prisma Client ──────────────────────────────────────────
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
+RUN npm ci
+
+COPY prisma ./prisma
+RUN npx prisma generate
+
+# ── Stage 2: production-образ ─────────────────────────────────────────────────
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Только prod-зависимости
+COPY package*.json ./
 RUN npm ci --omit=dev
 
-COPY . .
+# Скопировать сгенерированный Prisma Client из builder
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-RUN npx prisma generate
+# Код приложения
+COPY . .
 
 EXPOSE 3000
 
