@@ -325,7 +325,8 @@ async function submitForm() {
   const phoneEl = document.getElementById('field-phone');
   const errPhoneEl = document.getElementById('err-phone');
   const name = document.getElementById('field-name').value.trim();
-  const phone = phoneEl.value.trim();
+  // Убираем пробелы и дефисы форматирования перед валидацией
+  const phone = phoneEl.value.replace(/[\s\-]/g, '').trim();
   const region = document.getElementById('field-region').value.trim();
   const hp = document.getElementById('field-hp').value;
 
