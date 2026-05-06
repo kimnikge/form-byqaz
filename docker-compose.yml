@@ -5,27 +5,10 @@ services:
     build: .
     env_file: .env
     restart: unless-stopped
-    volumes:
-      - db_data:/app/server
-    healthcheck:
-      test: [ "CMD", "wget", "-qO-", "http://localhost:3000/health" ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-    expose:
-      - "3000"
-
-  nginx:
-    image: nginx:alpine
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "3000:3000"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-    depends_on:
-      - app
+      - db_data:/app/data
 
 volumes:
   db_data:

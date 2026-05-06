@@ -2,16 +2,17 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Ставим зависимости
 COPY package*.json ./
 RUN npm ci --omit=dev
 
+# Копируем весь проект
 COPY . .
 
+# Генерируем Prisma client
 RUN npx prisma generate
 
 EXPOSE 3000
 
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-    CMD wget -qO- http://localhost:3000/health || exit 1
-
+# При старте: накатываем миграции и запускаем сервер
 CMD ["sh", "-c", "npx prisma migrate deploy && node server/index.js"]
