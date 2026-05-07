@@ -60,5 +60,10 @@
     "form_label": "↓ Предварительная регистрация",
     "support_block_title": "ПОДДЕРЖАТЬ ПРОЕКТ",
     "support_block_sub": "Данный проект 100% гражданская инициатива",
-    "support_block_caption": "Kaspi QR"
+    "support_block_caption": "Kaspi QR",
+    "consent_text": "Я согласен(а) с ",
+    "consent_privacy": "Политикой конфиденциальности",
+    "consent_and": " и ",
+    "consent_offer": "Договором публичной оферты",
+    "err_consent": "Необходимо принять условия использования"
 }

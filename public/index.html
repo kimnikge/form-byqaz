@@ -437,7 +437,10 @@
       font-weight: 800;
       color: #059669;
       letter-spacing: 0.4px;
+      text-decoration: none;
+      display: inline-block;
     }
+    .hotline-number:hover { color: #047857; text-decoration: underline; }
 
     .qr-section {
       margin-top: 28px;
@@ -574,6 +577,41 @@
     }
     .support-block-rahmet:active { transform: translateY(0); }
     .support-block-rahmet svg { flex-shrink: 0; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45)); }
+
+    /* ─── Consent checkbox ─── */
+    .consent-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 6px;
+      margin-top: 4px;
+    }
+    .consent-wrap input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: #1a56db;
+      cursor: pointer;
+    }
+    .consent-wrap label {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.6;
+      cursor: pointer;
+    }
+    .consent-wrap label a {
+      color: #1a56db;
+      text-decoration: underline;
+      text-decoration-color: #c7d7fc;
+    }
+    .consent-wrap label a:hover { color: #1648c0; }
+    .consent-error {
+      font-size: 12px;
+      color: #ef4444;
+      display: none;
+      margin-bottom: 4px;
+    }
 
     /* ─── Honeypot ─── */
     .hp-field { display: none !important; }
@@ -1040,6 +1078,15 @@
       <input type="text" id="field-hp" tabindex="-1" autocomplete="off" />
     </div>
 
+    <!-- Consent -->
+    <div class="consent-wrap">
+      <input type="checkbox" id="field-consent" />
+      <label for="field-consent">
+        <span data-i18n="consent_text">Я согласен(а) с </span><a href="/privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="consent_privacy">Политикой конфиденциальности</a><span data-i18n="consent_and"> и </span><a href="/offer.html" target="_blank" rel="noopener noreferrer" data-i18n="consent_offer">Договором публичной оферты</a>
+      </label>
+    </div>
+    <div class="consent-error" id="err-consent"></div>
+
     <div class="global-error" id="err-step2"></div>
     <div class="actions">
       <button class="btn btn-secondary" onclick="goBack(2)" data-i18n="back">Назад</button>
@@ -1058,7 +1105,7 @@
 
   <div class="hotline">
     <div class="hotline-label" data-i18n="hotline_label">Горячая линия проекта (WhatsApp):</div>
-    <div class="hotline-number">+7 707 968 9998</div>
+    <a class="hotline-number" href="https://wa.me/77079689998" target="_blank" rel="noopener noreferrer">+7 707 968 9998</a>
   </div>
 
   <div class="tagline" data-i18n="tagline">Мы объединяем производителей...</div>

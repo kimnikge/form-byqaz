@@ -60,5 +60,10 @@
     "form_label": "↓ Алдын ала тіркелу",
     "support_block_title": "ЖОБАНЫ ҚОЛДАУ",
     "support_block_sub": "Бұл жоба 100% азаматтық бастама",
-    "support_block_caption": "Kaspi QR"
+    "support_block_caption": "Kaspi QR",
+    "consent_text": "Мен келісемін білдіремін: ",
+    "consent_privacy": "Құпиялылық саясаты",
+    "consent_and": " және ",
+    "consent_offer": "Жария оферта шарты",
+    "err_consent": "Пайдалану шарттарды қабылдауыңыз қажет"
 }

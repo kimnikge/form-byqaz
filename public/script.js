@@ -330,6 +330,8 @@ async function submitForm() {
   clearError(2);
   const phoneEl = document.getElementById('field-phone');
   const errPhoneEl = document.getElementById('err-phone');
+  const consentEl = document.getElementById('field-consent');
+  const errConsentEl = document.getElementById('err-consent');
   const name = document.getElementById('field-name').value.trim();
   const phone = phoneEl.value.trim();
   const region = document.getElementById('field-region').value.trim();
@@ -345,6 +347,14 @@ async function submitForm() {
   } else {
     phoneEl.classList.remove('error');
     errPhoneEl.style.display = 'none';
+  }
+
+  if (!consentEl.checked) {
+    errConsentEl.textContent = t('err_consent');
+    errConsentEl.style.display = 'block';
+    valid = false;
+  } else {
+    errConsentEl.style.display = 'none';
   }
 
   if (!valid) return;
