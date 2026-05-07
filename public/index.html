@@ -482,17 +482,46 @@
       margin-top: 32px;
       background: #fff;
       border-radius: 20px;
-      padding: 28px 24px;
+      padding: 32px 24px;
       text-align: center;
-      box-shadow: 0 4px 24px rgba(26,86,219,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.05);
+      border: 1.5px solid #f3f4f6;
+    }
+
+    .kaspi-qr-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .kaspi-qr-logo svg { width: 36px; height: 36px; }
+    .kaspi-qr-logo-text {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111;
+      letter-spacing: -0.3px;
+    }
+
+    .support-block-scan {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .support-block-divider {
+      width: 48px;
+      height: 3px;
+      background: #ef1111;
+      border-radius: 2px;
+      margin: 12px auto 16px;
     }
 
     .support-block-title {
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 15px;
+      font-weight: 700;
       color: #111827;
-      margin-bottom: 6px;
-      letter-spacing: -0.2px;
+      margin-bottom: 4px;
+      letter-spacing: -0.1px;
     }
 
     .support-block-sub {
@@ -517,6 +546,34 @@
       color: #9ca3af;
       font-weight: 600;
     }
+
+    .support-block-rahmet {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 50%;
+      margin: 4px auto 0;
+      padding: 16px 24px;
+      background: #e00f0f;
+      color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.45);
+      border: 2px solid rgba(255,255,255,0.25);
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(239,17,17,0.30);
+      transition: box-shadow 0.18s, transform 0.12s, background 0.18s;
+    }
+    .support-block-rahmet:hover {
+      background: #d00f0f;
+      box-shadow: 0 6px 24px rgba(239,17,17,0.42);
+      transform: translateY(-2px);
+    }
+    .support-block-rahmet:active { transform: translateY(0); }
+    .support-block-rahmet svg { flex-shrink: 0; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45)); }
 
     /* ─── Honeypot ─── */
     .hp-field { display: none !important; }
@@ -770,7 +827,7 @@
 <body>
 
 <header>
-  <div class="logo-wrap">
+  <div class="logo-wrap" style="flex:1;">
     <svg viewBox="308 110 192 112" xmlns="http://www.w3.org/2000/svg" aria-label="byQAZ.kz">
       <g transform="matrix(1.3333333,0,0,-1.3333333,0,793.7008)">
         <path fill="#fcc52b" fill-rule="evenodd" d="m 261.5134,495.5791 c 0.875,0 1.7379,-0.0519 2.586,-0.1528 -1.9568,-0.3189 -5.7691,-0.8427 -9.3898,-3.2221 -4.2638,-2.9815 -7.0526,-7.9282 -7.0526,-13.5261 0,-9.1091 5.4051,-16.4937 15.9438,-14.8995 9.3869,1.8145 11.4979,14.5242 3.5555,14.7416 -4.8526,-0.2945 -4.4172,-7.681 0.9499,-6.609 -1.8709,-6.3782 -15.8117,-5.9286 -15.8117,6.6907 0,8.0812 6.5512,14.6327 14.6325,14.6327 5.525,0 10.0411,-3.246 12.8242,-7.5821 2.1991,-3.3948 3.4767,-7.4421 3.4767,-11.7879 0,-3.6187 -0.8864,-7.0302 -2.452,-10.0307 l 0.002,9e-4 c 8.1445,-1.7232 12.397,-9.5587 11.8925,-15.533 -2.3364,2.3088 -5.7997,3.7105 -11.7644,3.848 -6.4644,0 -12.9285,0 -19.3926,0 -11.9929,0 -21.7148,9.722 -21.7148,21.7148 0,11.9928 9.7219,21.7145 21.7148,21.7145"/>
@@ -783,22 +840,20 @@
       </g>
     </svg>
   </div>
-  <div class="logo-sub">Реестр<br>казахстанских<br>производителей</div>
   <div class="lang-switch">
-    <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
     <button class="lang-btn" data-lang="kz" onclick="setLang('kz')">KZ</button>
+    <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
   </div>
 </header>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">🚧 <span data-i18n="hero_badge">Сайт в разработке</span></div>
-  <h1 class="hero-title" data-i18n="hero_title">Реестр казахстанских производителей</h1>
+  <h1 class="hero-title" data-i18n="hero_title">ПЛАТФОРМА КАЗАХСТАНСКИХ ПРОИЗВОДИТЕЛЕЙ</h1>
   <p class="hero-sub" data-i18n="hero_sub">Мы строим платформу, которая объединит производителей, поставщиков и закупщиков Казахстана в единую экосистему.</p>
 
   <!-- Таймер обратного отсчёта -->
   <div class="hero-launch">
-    <div class="hero-launch-label" data-i18n="hero_launch">Скоро запуск</div>
+    <div class="hero-launch-label" data-i18n="hero_launch">СТАРТ ПРОЕКТА</div>
     <div class="countdown">
       <div class="countdown-unit">
         <div class="countdown-num" id="cd-days">--</div>
@@ -821,13 +876,13 @@
 
   <!-- Счётчик участников -->
   <div class="hero-counter">
-    <span data-i18n="hero_counter_pre">Уже зарегистрировано:</span>
+    <span data-i18n="hero_counter_pre">ПОДАНО ЗАЯВОК</span>
     <span class="hero-counter-num" id="counter-num">…</span>
     <span data-i18n="hero_counter_post">участников</span>
   </div>
 
   <!-- Кнопка-якорь -->
-  <button class="hero-reg" onclick="scrollToForm()" data-i18n="hero_reg">А пока открыта предварительная регистрация — займи место первым!</button>
+  <button class="hero-reg" onclick="scrollToForm()"><span data-i18n="hero_reg_1">ЗАЯВКА ДЛЯ РЕГИСТРАЦИИ</span><br><span data-i18n="hero_reg_2">НА ПЛАТФОРМЕ</span></button>
 </div>
 
 <!-- Стрелка "листай вниз" -->
@@ -870,15 +925,15 @@
     <div class="role-list">
       <button class="option-btn" data-role="manufacturer" onclick="selectRole(this)">
         <span class="icon">🏭</span>
-        <span data-i18n="role_manufacturer">Производитель КЗ</span>
+        <span data-i18n="role_manufacturer">ПРОИЗВОДИТЕЛЬ</span>
       </button>
       <button class="option-btn" data-role="supplier" onclick="selectRole(this)">
         <span class="icon">🚚</span>
-        <span data-i18n="role_supplier">Поставщик для производителя</span>
+        <span data-i18n="role_supplier">ПОСТАВЩИК ДЛЯ ПРОИЗВОДИТЕЛЯ</span>
       </button>
       <button class="option-btn" data-role="buyer" onclick="selectRole(this)">
         <span class="icon">🛒</span>
-        <span data-i18n="role_buyer">Закупщик</span>
+        <span data-i18n="role_buyer">ЗАКУПЩИК</span>
       </button>
     </div>
     <div class="global-error" id="err-step0"></div>
@@ -1010,17 +1065,41 @@
   <div class="buy-local" data-i18n="buy_local">ПОКУПАЙ МЕСТНОЕ!</div>
 
   <div class="qr-section">
-    <div class="support-text" data-i18n="support_text">ПОДДЕРЖАТЬ НАШ ПРОЕКТ</div>
-    <img src="/kaspi-qr.png" alt="Kaspi QR" onerror="this.style.display='none'" />
+    <div class="support-text" data-i18n="support_text">ПОДДЕРЖАТЬ ПРОЕКТ</div>
+    <div class="support-block-sub" data-i18n="support_block_sub">Данный проект 100% гражданская инициатива</div>
   </div>
 </div>
 
 <!-- SUPPORT BLOCK -->
 <div class="support-block">
-  <div class="support-block-title" data-i18n="support_block_title">🤝 Помочь проекту легко!</div>
-  <div class="support-block-sub" data-i18n="support_block_sub">Мы гражданская инициатива. Любой вклад поможет нам развиваться.</div>
-  <img src="/byQAZ-QR.jpeg" alt="Kaspi QR для поддержки" />
-  <div class="support-block-caption" data-i18n="support_block_caption">Kaspi QR</div>
+  <div class="support-block-divider"></div>
+  <div class="support-block-title" data-i18n="support_block_title">ПОДДЕРЖАТЬ ПРОЕКТ</div>
+  <div class="support-block-sub" data-i18n="support_block_sub">Данный проект 100% гражданская инициатива</div>
+  <a class="support-block-rahmet" href="https://pay.kaspi.kz/pay/un4bkyug" target="_blank" rel="noopener noreferrer">
+    <svg width="26" height="26" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="7" fill="#fff" fill-opacity="0.15"/>
+      <!-- top-left corner -->
+      <rect x="4" y="4" width="11" height="11" rx="1.5" fill="none" stroke="#fff" stroke-width="2.2"/>
+      <rect x="7.5" y="7.5" width="4" height="4" rx="0.8" fill="#fff"/>
+      <!-- top-right corner -->
+      <rect x="21" y="4" width="11" height="11" rx="1.5" fill="none" stroke="#fff" stroke-width="2.2"/>
+      <rect x="24.5" y="7.5" width="4" height="4" rx="0.8" fill="#fff"/>
+      <!-- bottom-left corner -->
+      <rect x="4" y="21" width="11" height="11" rx="1.5" fill="none" stroke="#fff" stroke-width="2.2"/>
+      <rect x="7.5" y="24.5" width="4" height="4" rx="0.8" fill="#fff"/>
+      <!-- bottom-right dots -->
+      <rect x="21" y="21" width="3.5" height="3.5" rx="0.6" fill="#fff"/>
+      <rect x="26" y="21" width="3.5" height="3.5" rx="0.6" fill="#fff"/>
+      <rect x="31" y="21" width="1.5" height="3.5" rx="0.6" fill="#fff"/>
+      <rect x="21" y="26" width="3.5" height="3.5" rx="0.6" fill="#fff"/>
+      <rect x="26" y="26" width="3.5" height="1.5" rx="0.6" fill="#fff"/>
+      <rect x="29" y="26" width="3.5" height="3.5" rx="0.6" fill="#fff"/>
+      <rect x="21" y="31" width="3.5" height="1.5" rx="0.6" fill="#fff"/>
+      <rect x="26" y="29" width="1.5" height="3.5" rx="0.6" fill="#fff"/>
+      <rect x="29" y="31" width="3.5" height="1.5" rx="0.6" fill="#fff"/>
+    </svg>
+    РАХМЕТ!
+  </a>
 </div>
 
 <script src="/script.js"></script>
